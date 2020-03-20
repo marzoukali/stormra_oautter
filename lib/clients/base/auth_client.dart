@@ -7,9 +7,6 @@ abstract class AuthClient {
 
   AuthClient(this.authority);
 
-  
-
-
   void dispose() {
     client.close();
   }

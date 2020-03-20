@@ -12,7 +12,7 @@ class UserInfoResponse {
   UserInfoResponse.fromJson(Map<String, dynamic> parsedJson)
       : id = parsedJson['sub'],
         email = parsedJson['email'],
-        name = parsedJson['v'],
+        name = parsedJson['name'],
         isEnabled = parsedJson['is_enabled'],
         phoneNumber = parsedJson['phone_number'],
         errorDescription = parsedJson['error_description'];

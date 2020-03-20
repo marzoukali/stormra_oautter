@@ -17,5 +17,4 @@
            refreshToken = parsedJson['refresh_token'],
            errorDescription = parsedJson['error_description'],
            expiresIn = parsedJson['expires_in'];
-
     }

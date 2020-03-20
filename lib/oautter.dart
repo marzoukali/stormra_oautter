@@ -1,4 +1,4 @@
-library oautter;
+library stormra_oautter;
 
 /// A Calculator.
 class Calculator {

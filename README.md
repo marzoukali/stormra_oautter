@@ -1,6 +1,6 @@
-# oautter
+# Stormra Oautter
 
-A new Flutter package project.
+A Flutter package for manage identity and authentication for some stormra projects.
 
 ## Getting Started
 

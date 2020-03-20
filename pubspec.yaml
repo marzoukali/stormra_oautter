@@ -1,8 +1,8 @@
-name: oautter
-description: A new Flutter package project.
+name: stormra_oautter
+description: A Flutter package for manage identity and authentication for some stormra projects.
 version: 0.0.1
-author:
-homepage:
+author: Ahmed Ali<ahmedmarzouk.ir@gmail.com>
+homepage: https://github.com/marzoukali/stormra_oautter
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -10,6 +10,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  url_launcher: ^5.4.2
+  crypto: any
 
 dev_dependencies:
   flutter_test:

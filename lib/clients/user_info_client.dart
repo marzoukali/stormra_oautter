@@ -1,9 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:oautter/auth_client.dart';
-import 'models/user_info_response.dart';
+
+import 'package:stormra_oautter/models/user_info_response.dart';
+
+import 'base/auth_client.dart';
 
 class UserInfoClient extends AuthClient {
+ 
   final String authority;
   final HttpClient _client = HttpClient();
 

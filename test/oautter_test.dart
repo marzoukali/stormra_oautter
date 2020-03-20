@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:oautter/oautter.dart';
+import 'package:stormra_oautter/oautter.dart';
 
 void main() {
   test('adds one to input values', () {

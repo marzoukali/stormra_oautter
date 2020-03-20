@@ -1,3 +1,4 @@
-## [0.0.1] - TODO: Add release date.
+## [0.0.1] - 17/03/2020.
 
-* TODO: Describe initial release.
+* Add the basics for oauth flows authentication.
+* Add the basics for the identity management.
