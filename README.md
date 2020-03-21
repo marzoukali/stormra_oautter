@@ -4,11 +4,27 @@ A Flutter package for manage identity and authentication for some stormra projec
 
 ## Getting Started
 
-You will find a full example on how to use the package inside `example` project.
+- You will find a full example on how to use the package inside `example` project.
 
-To enable the phone Authntication flow:
+- To include the package in your project:
 
-- Initialize the client and request a code:
+     1. you can offline download it and reference it as shown inside the example's pubspec.yaml:
+
+```
+dependencies:
+  flutter:
+    sdk: flutter
+  stormra_oautter:
+    path: ../
+
+```
+
+     2. Or reference it from github.
+
+
+## To enable the phone Authntication flow:
+
+1. Request a code to verify the phone number:
 
 ```
      new RaisedButton(
@@ -22,7 +38,7 @@ To enable the phone Authntication flow:
                 },
 ```
 
-- When getting the code use it to request a token:
+2. When getting the code use it to request a token:
 
 ```
               new RaisedButton(
@@ -43,6 +59,8 @@ To enable the phone Authntication flow:
                 },
 ```
 
+- Notes:
+
 ![image](https://user-images.githubusercontent.com/16062302/77227437-111c9980-6b89-11ea-81db-71a06b313322.png)
 
 Add the offline_access to the scope to get the refresh_token:
@@ -50,4 +68,7 @@ Add the offline_access to the scope to get the refresh_token:
 ```
 scope: 'web_api openid profile offline_access'
 ```
+
+
+
 
