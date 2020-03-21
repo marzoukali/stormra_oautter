@@ -4,11 +4,28 @@ A Flutter package for manage identity and authentication for some stormra projec
 
 ## Getting Started
 
-This project is a starting point for a Dart
-[package](https://flutter.dev/developing-packages/),
-a library module containing code that can be shared easily across
-multiple Flutter or Dart projects.
+You will find a full example on how to use the package inside `example` project.
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+To enable the phone Authntication flow:
+
+- Initialize the client and request a code:
+
+```
+ new RaisedButton(
+                child: new Text(
+                    "Login using mobile phone number,
+                color: Colors.blueAccent[300],
+                onPressed: () async {
+                  final client =
+                      TokenClient('qa-mda-idsrv-app.azurewebsites.net');
+                  await client.requestPhoneVerificationCode(phoneNumber:'+20100...');
+                },
+              ),
+```
+
+- When getting the code use it to request a token:
+
+```
+  final client = TokenClient('qa-mda-idsrv-app.azurewebsites.net');
+  await client.requestPhoneVerificationToken(clientId:'phone_number_authentication', clientSecret:'secret', scope:'web_api openid profile', verificationToken: '...', phoneNumber: '...');
+```
