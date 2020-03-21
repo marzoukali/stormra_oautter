@@ -103,7 +103,7 @@ class TokenClient extends AuthClient {
     }
 
     var req = await client.postUrl(Uri.parse(url));
-    req.headers.set('content-type', 'application/x-www-form-urlencoded');
+    req.headers.set('content-type', 'application/json');
     req.add(utf8.encode(json.encode(body)));
     var response = await req.close();
 
