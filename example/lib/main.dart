@@ -92,7 +92,14 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () async {
                   final client =
                       TokenClient('qa-mda-idsrv-app.azurewebsites.net');
-                  await client.requestPhoneVerificationToken(phoneNumber: phoneNumberTextCtlr.text,clientId:'phone_number_authentication',clientSecret: 'secret',scope: 'web_api openid profile offline_access', verificationToken: phoneVerificationCodeTextCtlr.text);
+                      var t = await client.requestPhoneVerificationToken(phoneNumber: phoneNumberTextCtlr.text,clientId:'phone_number_authentication',clientSecret: 'secret',scope: 'web_api openid profile offline_access', verificationToken: phoneVerificationCodeTextCtlr.text);
+                
+                  await CustomAlertBox.showCustomAlertBox(
+                      context: context,
+                      willDisplayWidget: Container(
+                        child: Text(t.accessToken ?? t.error),
+                      ));
+                      
                 },
               ),
               new RaisedButton(

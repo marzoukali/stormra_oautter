@@ -6,7 +6,6 @@ import 'package:url_launcher/url_launcher.dart';
 import 'base/auth_client.dart';
 
 class TokenClient extends AuthClient {
-  
   final String authority;
 
   TokenClient(this.authority) : super(authority);
@@ -64,28 +63,32 @@ class TokenClient extends AuthClient {
     return null;
   }
 
-    Future<bool> requestPhoneVerificationCode({String phoneNumber}) async {
-     var req = await client.postUrl(new Uri.https(authority, '/api​/verify_phone_number'));
-    var toWrite =
-        'phoneNumber=$phoneNumber';
-    req
-      ..headers.contentType = new ContentType(
-          'application', 'x-www-form-urlencoded', charset: 'utf-8')
-      ..write(toWrite);
+  Future<bool> requestPhoneVerificationCode({String phoneNumber}) async {
+    var url = 'https://$authority/api/verify_phone_number';
+    Map jsonMap = {'phoneNumber': phoneNumber};
 
-    var res = await req.close();
+    HttpClientRequest req = await client.postUrl(Uri.parse(url));
+    req.headers.set('content-type', 'application/json');
+    req.add(utf8.encode(json.encode(jsonMap)));
+    var response = await req.close();
 
-    if(res.statusCode == HttpStatus.accepted || res.statusCode == HttpStatus.ok)
-    {
+    if (response.statusCode == HttpStatus.accepted ||
+        response.statusCode == HttpStatus.ok) {
+      // String reply = await response.transform(utf8.decoder).join();
+
       return true;
     }
 
     return false;
   }
 
-
-  Future<TokenResponse> requestPhoneVerificationToken({String clientId, String clientSecret,  String scope,  String verificationToken, String phoneNumber}) async {
-     var req = await client.postUrl(new Uri.https(authority, '/connect/token'));
+  Future<TokenResponse> requestPhoneVerificationToken(
+      {String clientId,
+      String clientSecret,
+      String scope,
+      String verificationToken,
+      String phoneNumber}) async {
+    var req = await client.postUrl(new Uri.https(authority, '/connect/token'));
     var toWrite =
         'grant_type=phone_number_token&verification_token=$verificationToken&phone_number=$phoneNumber&client_id=$clientId&client_secret=$clientSecret';
 
