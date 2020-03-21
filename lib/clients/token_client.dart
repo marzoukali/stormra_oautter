@@ -4,6 +4,7 @@ import 'package:stormra_oautter/models/token_response.dart';
 import 'package:stormra_oautter/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'base/auth_client.dart';
+import 'package:http/http.dart' as http;
 
 class TokenClient extends AuthClient {
   final String authority;
@@ -47,7 +48,7 @@ class TokenClient extends AuthClient {
     var scope = 'web_api';
 
     var authCodeWithPkce =
-        'https://$authority/connect/authorize?client_id=$clientId&response_type=$responseType&state=$state&redirect_uri=$redirectUrl&scope=$scope&code_challenge_method=S256&code_challenge=$codeChallenge&acr_values=idp:Facebook';
+        '$authority/connect/authorize?client_id=$clientId&response_type=$responseType&state=$state&redirect_uri=$redirectUrl&scope=$scope&code_challenge_method=S256&code_challenge=$codeChallenge&acr_values=idp:Facebook';
 
     _launchURL(authCodeWithPkce);
 
@@ -64,7 +65,7 @@ class TokenClient extends AuthClient {
   }
 
   Future<bool> requestPhoneVerificationCode({String phoneNumber}) async {
-    var url = 'https://$authority/api/verify_phone_number';
+    var url = '$authority/api/verify_phone_number';
     Map jsonMap = {'phoneNumber': phoneNumber};
 
     HttpClientRequest req = await client.postUrl(Uri.parse(url));
@@ -88,7 +89,7 @@ class TokenClient extends AuthClient {
       String scope,
       String verificationToken,
       String phoneNumber}) async {
-    var url = 'https://$authority' + '/connect/token';
+    var url = authority + '/connect/token';
 
     var body = {
       'grant_type': 'phone_number_token',
@@ -101,13 +102,12 @@ class TokenClient extends AuthClient {
     if (scope != null) {
       body['scope'] = scope;
     }
+    var headers = {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    };
+    var response = await http.post(url, body: body, headers: headers);
 
-    var req = await client.postUrl(Uri.parse(url));
-    req.headers.set('content-type', 'application/json');
-    req.add(utf8.encode(json.encode(body)));
-    var response = await req.close();
-
-    var responseBody = await response.transform(utf8.decoder).join();
+    var responseBody = response.body;
     var jsonResponse = jsonDecode(responseBody) as Map;
 
     return TokenResponse.fromJson(jsonResponse);
