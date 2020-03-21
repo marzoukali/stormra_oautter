@@ -45,5 +45,9 @@ To enable the phone Authntication flow:
 
 ![image](https://user-images.githubusercontent.com/16062302/77227437-111c9980-6b89-11ea-81db-71a06b313322.png)
 
-Add the offline_access to the scope to get the refresh_token
+Add the offline_access to the scope to get the refresh_token:
+
+```
+scope: 'web_api openid profile offline_access'
+```
 
