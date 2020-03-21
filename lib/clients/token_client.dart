@@ -14,22 +14,25 @@ class TokenClient extends AuthClient {
   Future<TokenResponse> requestPasswordToken(
       String clientId, String clientSecret, String userName, String password,
       [String scope]) async {
-    var req = await client.postUrl(new Uri.https(authority, '/connect/token'));
-    var toWrite =
-        'grant_type=password&username=$userName&password=$password&client_id=$clientId&client_secret=$clientSecret';
+    var url = authority + '/connect/token';
+
+    var body = {
+      'grant_type': 'password',
+      'client_id': clientId,
+      'client_secret': clientSecret,
+      'username': userName,
+      'password': password
+    };
 
     if (scope != null) {
-      toWrite += '&scope=$scope';
+      body['scope'] = scope;
     }
+    var headers = {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    };
+    var response = await http.post(url, body: body, headers: headers);
 
-    req
-      ..headers.contentType = new ContentType(
-          'application', 'x-www-form-urlencoded',
-          charset: 'utf-8')
-      ..write(toWrite);
-
-    var res = await req.close();
-    var responseBody = await res.transform(utf8.decoder).join();
+    var responseBody = response.body;
     var jsonResponse = jsonDecode(responseBody) as Map;
 
     return TokenResponse.fromJson(jsonResponse);
@@ -65,18 +68,20 @@ class TokenClient extends AuthClient {
   }
 
   Future<bool> requestPhoneVerificationCode({String phoneNumber}) async {
-    var url = '$authority/api/verify_phone_number';
-    Map jsonMap = {'phoneNumber': phoneNumber};
+    var url = authority + '/api/verify_phone_number';
 
-    HttpClientRequest req = await client.postUrl(Uri.parse(url));
-    req.headers.set('content-type', 'application/json');
-    req.add(utf8.encode(json.encode(jsonMap)));
-    var response = await req.close();
+    var body = {
+      'phoneNumber': phoneNumber,
+    };
+
+    var headers = {
+      'Content-Type': 'application/json',
+    };
+
+    var response = await http.post(url, body: body, headers: headers);
 
     if (response.statusCode == HttpStatus.accepted ||
         response.statusCode == HttpStatus.ok) {
-      // String reply = await response.transform(utf8.decoder).join();
-
       return true;
     }
 
