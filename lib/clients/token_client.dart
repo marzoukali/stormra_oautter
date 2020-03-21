@@ -14,7 +14,7 @@ class TokenClient extends AuthClient {
   Future<TokenResponse> requestPasswordToken(
       String clientId, String clientSecret, String userName, String password,
       [String scope]) async {
-    var url = authority + '/connect/token';
+    var url = '$authority/connect/token';
 
     var body = {
       'grant_type': 'password',
@@ -68,17 +68,25 @@ class TokenClient extends AuthClient {
   }
 
   Future<bool> requestPhoneVerificationCode({String phoneNumber}) async {
-    var url = authority + '/api/verify_phone_number';
+    var url = '$authority/api/verify_phone_number';
 
-    var body = {
-      'phoneNumber': phoneNumber,
-    };
+    // var body = {
+    //   'phoneNumber': phoneNumber,
+    // };
 
-    var headers = {
-      'Content-Type': 'application/json',
-    };
+    // var headers = {
+    //   'Content-Type': 'application/json',
+    // };
 
-    var response = await http.post(url, body: body, headers: headers);
+    // var response = await http.post(url, body: body, headers: headers);
+
+    
+    Map jsonMap = {'phoneNumber': phoneNumber};
+
+    HttpClientRequest req = await client.postUrl(Uri.parse(url));
+    req.headers.set('content-type', 'application/json');
+    req.add(utf8.encode(json.encode(jsonMap)));
+    var response = await req.close();
 
     if (response.statusCode == HttpStatus.accepted ||
         response.statusCode == HttpStatus.ok) {
@@ -94,7 +102,7 @@ class TokenClient extends AuthClient {
       String scope,
       String verificationToken,
       String phoneNumber}) async {
-    var url = authority + '/connect/token';
+    var url = '$authority/connect/token';
 
     var body = {
       'grant_type': 'phone_number_token',
