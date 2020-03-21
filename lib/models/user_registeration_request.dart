@@ -18,13 +18,22 @@ class UserRegisterationRequest {
       this.birthDate,
       this.country});
 
+  UserRegisterationRequest.fromJson(Map<String, dynamic> parsedJson)
+      : email = parsedJson['email'],
+        password = parsedJson['password'],
+        confirmPassword = parsedJson['confirm_password'],
+        firstName = parsedJson['first_name'],
+        lastName = parsedJson['last_name'],
+        userName = parsedJson['user_name'],
+        country = parsedJson['country'];
+
   Map<String, dynamic> toJson() => {
         'email': email,
         'password': password,
-        'confirmPassword': confirmPassword,
-        'firstName': firstName,
-        'lastName': lastName,
-        'userName': userName,
+        'confirm_password': confirmPassword,
+        'first_name': firstName,
+        'last_name': lastName,
+        'user_name': userName,
         'country': country
       };
 }
