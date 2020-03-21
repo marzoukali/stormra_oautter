@@ -27,6 +27,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final phoneVerificationCodeTextCtlr = TextEditingController();
+  final phoneNumberTextCtlr = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,14 +67,32 @@ class _HomePageState extends State<HomePage> {
                       'ro.client', 'secret');
                 },
               ),
+              TextField(
+                controller: phoneNumberTextCtlr,
+                decoration: new InputDecoration.collapsed(hintText: 'Your Phone Number'),
+              ),
               new RaisedButton(
-                child: new Text("Login using Mobile Number (Not OAuth2.0 Standard)"),
+                child: new Text(
+                    "Request a Phone Number Code"),
                 color: Colors.blueAccent[600],
                 onPressed: () async {
                   final client =
                       TokenClient('qa-mda-idsrv-app.azurewebsites.net');
-                  await client.requestAuthorizationCodeToken(
-                      'ro.client', 'secret');
+                  await client.requestPhoneVerificationCode(phoneNumber: phoneNumberTextCtlr.text);
+                },
+              ),
+                            TextField(
+                controller: phoneVerificationCodeTextCtlr,
+                decoration: new InputDecoration.collapsed(hintText: 'Your Phone Number Code'),
+              ),
+              new RaisedButton(
+                child: new Text(
+                    "Login using Mobile Number (Not OAuth2.0 Standard)"),
+                color: Colors.blueAccent[600],
+                onPressed: () async {
+                  final client =
+                      TokenClient('qa-mda-idsrv-app.azurewebsites.net');
+                  await client.requestPhoneVerificationToken(phoneNumber: phoneNumberTextCtlr.text,clientId:'phone_number_authentication',clientSecret: 'secret',scope: 'web_api openid profile offline_access', verificationToken: phoneVerificationCodeTextCtlr.text);
                 },
               ),
               new RaisedButton(

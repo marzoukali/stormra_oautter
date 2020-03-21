@@ -70,15 +70,17 @@ class TokenClient extends AuthClient {
         'phoneNumber=$phoneNumber';
     req
       ..headers.contentType = new ContentType(
-          'application', 'x-www-form-urlencoded',
-          charset: 'utf-8')
+          'application', 'x-www-form-urlencoded', charset: 'utf-8')
       ..write(toWrite);
 
     var res = await req.close();
-    var responseBody = await res.transform(utf8.decoder).join();
-    var jsonResponse = jsonDecode(responseBody) as Map;
 
-    return true;
+    if(res.statusCode == HttpStatus.accepted || res.statusCode == HttpStatus.ok)
+    {
+      return true;
+    }
+
+    return false;
   }
 
 
