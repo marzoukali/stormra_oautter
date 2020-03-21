@@ -4,6 +4,7 @@ import 'package:stormra_oautter/models/token_response.dart';
 import 'package:stormra_oautter/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'base/auth_client.dart';
+import 'package:http/http.dart' as http;
 
 class TokenClient extends AuthClient {
   final String authority;
@@ -88,22 +89,25 @@ class TokenClient extends AuthClient {
       String scope,
       String verificationToken,
       String phoneNumber}) async {
-    var req = await client.postUrl(new Uri.https(authority, '/connect/token'));
-    var toWrite =
-        'grant_type=phone_number_token&verification_token=$verificationToken&phone_number=$phoneNumber&client_id=$clientId&client_secret=$clientSecret';
+    var url = authority + '/connect/token';
+
+    var body = {
+      'grant_type': 'phone_number_token',
+      'client_id': clientId,
+      'client_secret': clientSecret,
+      'verification_token': verificationToken,
+      'phone_number': phoneNumber
+    };
 
     if (scope != null) {
-      toWrite += '&scope=$scope';
+      body['scope'] = scope;
     }
+    var headers = {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    };
+    var response = await http.post(url, body: body, headers: headers);
 
-    req
-      ..headers.contentType = new ContentType(
-          'application', 'x-www-form-urlencoded',
-          charset: 'utf-8')
-      ..write(toWrite);
-
-    var res = await req.close();
-    var responseBody = await res.transform(utf8.decoder).join();
+    var responseBody = response.body;
     var jsonResponse = jsonDecode(responseBody) as Map;
 
     return TokenResponse.fromJson(jsonResponse);
