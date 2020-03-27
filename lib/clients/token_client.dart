@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:stormra_oautter/models/token_response.dart';
 import 'package:stormra_oautter/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -62,9 +63,49 @@ class TokenClient extends AuthClient {
     return requestAuthorizationCodeToken('', '');
   }
 
-  Future<TokenResponse>
-      requestFacebookAuthorizationCodeTokenUsingFacebookSDK() async {
-    return null;
+  Future<String> requestFacebookTokenUsingFacebookSDK() async {
+    try {
+      FacebookLoginResult facebookLoginResult = await _handleFBSignIn();
+      final accessToken = facebookLoginResult.accessToken.token;
+      if (facebookLoginResult.status == FacebookLoginStatus.loggedIn) {
+        return accessToken;
+      }
+
+      return null;
+    } catch (error) {
+      print(error.toString());
+      return null;
+    }
+  }
+
+  Future<TokenResponse> exchangeFacebookTokenWithIdSrvToken(
+      {String clientId,
+      String clientSecret,
+      String scope,
+      String provider,
+      String fbAccessToken}) async {
+    var url = '$authority/connect/token';
+
+    var body = {
+      'grant_type': 'external',
+      'client_id': clientId,
+      'client_secret': clientSecret,
+      'provider': 'facebook',
+      'external_token': fbAccessToken
+    };
+
+    if (scope != null) {
+      body['scope'] = scope;
+    }
+    var headers = {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    };
+    var response = await http.post(url, body: body, headers: headers);
+
+    var responseBody = response.body;
+    var jsonResponse = jsonDecode(responseBody) as Map;
+
+    return TokenResponse.fromJson(jsonResponse);
   }
 
   Future<bool> requestPhoneVerificationCode({String phoneNumber}) async {
@@ -80,7 +121,6 @@ class TokenClient extends AuthClient {
 
     // var response = await http.post(url, body: body, headers: headers);
 
-    
     Map jsonMap = {'phoneNumber': phoneNumber};
 
     HttpClientRequest req = await client.postUrl(Uri.parse(url));
@@ -132,5 +172,23 @@ class TokenClient extends AuthClient {
     } else {
       throw 'Could not launch $url';
     }
+  }
+
+  Future<FacebookLoginResult> _handleFBSignIn() async {
+    FacebookLogin facebookLogin = FacebookLogin();
+    FacebookLoginResult facebookLoginResult =
+        await facebookLogin.logIn(['email']);
+    switch (facebookLoginResult.status) {
+      case FacebookLoginStatus.cancelledByUser:
+        print("Cancelled");
+        break;
+      case FacebookLoginStatus.error:
+        print("error");
+        break;
+      case FacebookLoginStatus.loggedIn:
+        print("Logged In");
+        break;
+    }
+    return facebookLoginResult;
   }
 }
