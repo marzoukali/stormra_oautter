@@ -284,7 +284,7 @@ class IdentityClient {
     }
 
     
-    var response = await http.post(url, body: body, headers: headers);
+    var response = await http.put(url, body: body, headers: headers);
 
     var responseBody = response.body;
     var jsonResponse = jsonDecode(responseBody) as Map;
