@@ -6,6 +6,8 @@ class TokenResponse {
   String errorDescription;
   int expiresIn;
   String error;
+  String scope;
+
 
   TokenResponse({
     this.accessToken,
@@ -15,20 +17,22 @@ class TokenResponse {
     this.errorDescription,
     this.expiresIn,
     this.error,
+    this.scope
   });
 
   TokenResponse.fromJson(Map<String, dynamic> parsedJson)
       : accessToken = parsedJson['access_token'],
-        identityToken = parsedJson['identity_token'],
+        identityToken = parsedJson['id_token'],
         tokenType = parsedJson['token_type'],
         refreshToken = parsedJson['refresh_token'],
         errorDescription = parsedJson['error_description'],
         error = parsedJson['error'],
-        expiresIn = parsedJson['expires_in'];
+        expiresIn = parsedJson['expires_in'],
+        scope = parsedJson['scope'];
 
   Map<String, dynamic> toJson() => {
         'access_token': accessToken,
-        'identity_token': identityToken,
+        'id_token': identityToken,
         'token_type': tokenType,
         'refresh_token': refreshToken,
         'error_description': errorDescription,

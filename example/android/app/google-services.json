@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "44401486253",
+    "firebase_url": "https://soautter.firebaseio.com",
+    "project_id": "soautter",
+    "storage_bucket": "soautter.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:44401486253:android:5378e6da2123dfef2fd924",
+        "android_client_info": {
+          "package_name": "com.stormra.soautter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "44401486253-67ms53v16oclv9eqvrs1939h6ptfk44s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.stormra.soautter",
+            "certificate_hash": "1b39b99c86402766b78f3b4d113e79c2841b1702"
+          }
+        },
+        {
+          "client_id": "44401486253-c69rt23utgdqhpgbi3ror2mcj8f064ds.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5YtTKG2dDtrMM1Gqn6phZLuWD6NvEOac"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "44401486253-c69rt23utgdqhpgbi3ror2mcj8f064ds.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Stormra Outter Example</string>
+    <string name="facebook_app_id">621714592014769</string>
+    <string name="fb_login_protocol_scheme">fb621714592014769</string>
+</resources>

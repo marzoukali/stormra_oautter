@@ -1,4 +1,4 @@
-package com.example.example
+package com.stormra.soautter
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
