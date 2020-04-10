@@ -261,7 +261,7 @@ class _HomePageState extends State<HomePage> {
                         externalAccessToken: googleKey.accessToken,
                         scope: 'profile openid mda_api offline_access');
 
-                    CustomAlertBox.showCustomAlertBox(
+                    await CustomAlertBox.showCustomAlertBox(
                         context: context,
                         willDisplayWidget: Container(
                           child: Text('Our Access Token: ${t.accessToken}'),
