@@ -151,14 +151,14 @@ class _HomePageState extends State<HomePage> {
                 var userProfile =
                     new UserProfile(appUserId: user.id, firstName: 'Lol');
 
-                var userAfterUpdate =
-                    await _client.updateUserProfile(userProfile,accessToken: t.accessToken);
+               // var userAfterUpdate =
+                  //  await _client.updateUserProfile(userProfile,accessToken: t.accessToken);
 
-                await CustomAlertBox.showCustomAlertBox(
-                    context: context,
-                    willDisplayWidget: Container(
-                      child: Text(userAfterUpdate.firstName),
-                    ));
+                // await CustomAlertBox.showCustomAlertBox(
+                //     context: context,
+                //     willDisplayWidget: Container(
+                //       child: Text(userAfterUpdate.firstName),
+                //     ));
               },
             ),
             TextField(

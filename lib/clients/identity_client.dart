@@ -65,7 +65,8 @@ class IdentityClient {
       String scope,
       String provider,
       String externalAccessToken,
-      String phoneNumber}) async {
+      String phoneNumber,
+      String phoneNumberCode}) async {
     var url = '$authority/connect/token';
 
     var body = {
@@ -78,6 +79,12 @@ class IdentityClient {
     if(phoneNumber != null && phoneNumber != '')
     {
       body['phone'] = phoneNumber;
+    }
+
+    
+    if(phoneNumberCode != null && phoneNumberCode != '')
+    {
+      body['phone_code'] = phoneNumberCode;
     }
 
     if (scope != null && scope != '') {
@@ -167,9 +174,6 @@ class IdentityClient {
     return TokenResponse.fromJson(jsonResponse);
   }
 
-
-
-
   
   Future<TokenResponse> requestEmailCodeVerificationToken(
       {String clientId,
@@ -203,8 +207,6 @@ class IdentityClient {
 
     return TokenResponse.fromJson(jsonResponse);
   }
-
-
 
   
   Future<TokenResponse> refreshToken(
@@ -263,34 +265,6 @@ class IdentityClient {
     return null;
   }
   
-  Future<UserProfile> updateUserProfile(UserProfile userProfileUpdateRequest, {String accessToken}) async {
-    
-    var url = '$identityApi/api/UserProfile/UpdateUserProfileByUserId';
-
-    if(userProfileUpdateRequest == null || userProfileUpdateRequest.appUserId == null)
-    {
-       throw 'UserId Should Be Provided. It can be aquired from the userInfo endpoint with key sub';
-    }
-
-    var body = jsonEncode(userProfileUpdateRequest);
-
-    var headers = {
-      'Content-Type': 'application/json'
-    };
-
-    if(accessToken != null && accessToken != '')
-    {
-      headers['Authorization'] = 'Bearer $accessToken';
-    }
-
-    
-    var response = await http.put(url, body: body, headers: headers);
-
-    var responseBody = response.body;
-    var jsonResponse = jsonDecode(responseBody) as Map;
-
-    return UserProfile.fromJson(jsonResponse);
-  }
 
 
   _launchURL(String url) async {
